@@ -34,14 +34,26 @@ const displayWeather = data => {
 	document.querySelector(".weather").classList.remove("loading");
 };
 
+const nextDays = () => {
+	document.querySelector(".popup").classList.remove("show-popup");
+};
+
 document.querySelector(".search-button").addEventListener("click", () => {
 	search();
+});
+
+document.querySelector(".remove-button").addEventListener("click", () => {
+	document.querySelector(".popup").classList.add("show-popup");
 });
 
 document.querySelector(".search-bar").addEventListener("keyup", e => {
 	if (e.key == "Enter") {
 		search();
 	}
+});
+
+document.querySelector(".next-days").addEventListener("click", () => {
+	nextDays();
 });
 
 weather.fetchWeather("Szczecin");
