@@ -4,7 +4,7 @@ let weather = {
 		fetch(
 			"https://api.openweathermap.org/data/2.5/weather?q=" +
 				city +
-				"&units=metric&appid=" +
+				"&units=metric&exclude=daily&appid=" +
 				this.apiKey
 		)
 			.then(response => response.json())
@@ -31,7 +31,27 @@ const displayWeather = data => {
 		"Humidity: " + humidity + " %";
 	document.querySelector(".wind").innerText =
 		"Wind speed: " + Math.round(speed) + " km/h";
+
 	document.querySelector(".weather").classList.remove("loading");
+	weatherMoreDetails(data);
+};
+
+const weatherMoreDetails = data => {
+	const { name } = data;
+	const { feels_like, pressure } = data.main;
+	const { icon, description } = data.weather[0];
+	const { visibility } = data;
+
+	document.querySelector(".popup .city").innerText = "Weather in " + name;
+	document.querySelector(".popup .icon").src =
+		"https://openweathermap.org/img/wn/" + icon + ".png";
+	document.querySelector(".popup .description").innerText = description;
+	document.querySelector(".temp-feels-like").innerText =
+		"Feels like: " + Math.round(feels_like) + "°C";
+	document.querySelector(".pressure").innerText =
+		"Pressure: " + pressure + " hPa";
+	document.querySelector(".visibility").innerText =
+		"Visibility: " + visibility / 1000 + " km";
 };
 
 const nextDays = () => {
@@ -52,7 +72,7 @@ document.querySelector(".search-bar").addEventListener("keyup", e => {
 	}
 });
 
-document.querySelector(".next-days").addEventListener("click", () => {
+document.querySelector(".more-details").addEventListener("click", () => {
 	nextDays();
 });
 
